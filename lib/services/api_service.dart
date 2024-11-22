@@ -5,7 +5,7 @@ import '../components/models/meal.dart';
 
 
 class ApiService {
-  static const String baseUrl = 'https://alexandergeorge102934.github.io/nutrigoapi';
+  static const String baseUrl = 'https://alexandergeorge102934.github.io/nutrigodata';
 
   // Fetch menu data grouped by restaurant
   static Future<List<Meal>> fetchMenus() async {
