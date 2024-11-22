@@ -73,7 +73,7 @@ class MealOptionCard extends StatelessWidget {
                         vertical: TSizes.xs(context),
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.6),
+                        color: Colors.green.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(
                           TSizes.cardRadiusSm(context),
                         ),

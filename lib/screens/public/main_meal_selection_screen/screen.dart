@@ -230,7 +230,12 @@ class _MealSelectionScreenState extends State<MealSelectionScreen> {
             items: [5, 10, 15, 20].map((int value) {
               return DropdownMenuItem<int>(
                 value: value,
-                child: Text('\$$value'),
+                child: Text(
+                  '\$$value',
+                  style: TextStyle(
+                  fontSize: TSizes.fontSizeSm(context), // Set your desired font size here
+                  ),
+                )
               );
             }).toList(),
             onChanged: _onPriceChanged,
@@ -248,7 +253,12 @@ class _MealSelectionScreenState extends State<MealSelectionScreen> {
             items: ['high protein', 'vegan', 'vegetarian', 'general'].map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(value.capitalizeFirstLetter()),
+                child: Text(
+                  value.capitalizeFirstLetter(),
+                  style: TextStyle(
+                  fontSize: TSizes.fontSizeSm(context), // Set your desired font size here
+                  ),
+                ),
               );
             }).toList(),
             onChanged: _onPreferenceChanged,
