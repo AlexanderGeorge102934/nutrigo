@@ -11,7 +11,7 @@ class MealOptionCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const MealOptionCard({
-    super.key,
+    Key? key,
     required this.name,
     required this.imageUrl,
     required this.price,
@@ -19,119 +19,137 @@ class MealOptionCard extends StatelessWidget {
     required this.mealType,
     required this.restaurantName,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final borderRadius = BorderRadius.circular(TSizes.cardRadiusMd(context));
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: TSizes.md(context), // Compact card width
         margin: EdgeInsets.symmetric(
           horizontal: TSizes.sm(context),
-          vertical: TSizes.xs(context) * 0.8,
+          vertical: TSizes.xs(context),
         ),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(TSizes.cardRadiusMd(context)),
+          borderRadius: borderRadius,
+          border: Border.all(
+            color: Colors.grey.withOpacity(0.5),
+            width: 0.5,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: Offset(0, 4),
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: TSizes.cardElevation(context),
+              offset: Offset(0, TSizes.cardElevation(context) * 0.5),
             ),
           ],
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // Prevent stretching
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Circular Image with Shadow
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(TSizes.sm(context)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: ClipOval(
-                      child: Image.asset(
-                        imageUrl,
-                        height: 80,
-                        width: 80,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: TSizes.lg(context)),
-                Text(
-                  '\$${price.toString()}',
-                  style: TextStyle(
-                    fontSize: TSizes.fontSizeXXl(context),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: TSizes.sm(context)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: ClipRRect(
+          borderRadius: borderRadius,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Image with price overlay
+              Stack(
                 children: [
-                  Center(
-                    child: Text(
-                      name,
-                      style: TextStyle(
-                        fontSize: TSizes.fontSizeMd(context),
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                      maxLines: 1,
-                      // Ensure only one line is displayed
-                      overflow: TextOverflow.ellipsis,
-                      // Add ellipsis if text is too long
-                      textAlign: TextAlign.center,
-                    ),
+                  // Image
+                  Image.network(
+                    imageUrl,
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    fit: BoxFit.cover,
                   ),
-                  SizedBox(height: TSizes.xs(context)),
-                  Center(
-                    child: Text(
-                      restaurantName,
-                      style: TextStyle(
-                        fontSize: TSizes.fontSizeSm(context),
-                        color: Colors.grey[600],
+                  // Price Label
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: TSizes.sm(context),
+                        vertical: TSizes.xs(context),
                       ),
-                      maxLines: 1, // Ensure only one line is displayed
-                      overflow: TextOverflow
-                          .ellipsis, // Add ellipsis if text is too long
-                    ),
-                  ),
-                  SizedBox(height: TSizes.xs(context)),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {},
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(
+                          TSizes.cardRadiusSm(context),
+                        ),
+                      ),
                       child: Text(
-                        "Order",
-                        style: TextStyle(fontSize: TSizes.fontSizeSm(context)),
+                        '\$${price.toString()}',
+                        style: TextStyle(
+                          fontSize: TSizes.fontSizeMd(context),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              // Content Container
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(TSizes.sm(context)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Meal Name
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: TSizes.fontSizeMd(context),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: TSizes.xs(context)),
+                    // Restaurant Name and Diet Icon
+                    Row(
+                      children: [
+                        Icon(
+                          dietIcon(diet),
+                          size: TSizes.iconSm(context),
+                          color: Colors.grey[600],
+                        ),
+                        SizedBox(width: TSizes.xs(context)),
+                        Text(
+                          restaurantName,
+                          style: TextStyle(
+                            fontSize: TSizes.fontSizeSm(context),
+                            color: Colors.grey[600],
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  // Helper function to get diet icon
+  IconData dietIcon(String diet) {
+    switch (diet.toLowerCase()) {
+      case 'vegan':
+        return Icons.spa;
+      case 'vegetarian':
+        return Icons.restaurant;
+      case 'high protein':
+        return Icons.fitness_center;
+      default:
+        return Icons.restaurant_menu;
+    }
   }
 }

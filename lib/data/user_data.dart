@@ -2,5 +2,5 @@
 
 class UserData {
   static String? dietaryPreference;
-  static int? weeklyBudget;
+  // static int? weeklyBudget;
 }
