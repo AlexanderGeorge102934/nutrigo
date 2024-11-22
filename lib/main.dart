@@ -1,4 +1,4 @@
-import 'package:campusnutrigo/screens/public/main_meal_selection_screen/screen.dart';
+import 'package:campusnutrigo/screens/main_meal_selection_screen/screen.dart';
 import 'package:campusnutrigo/themes/theme.dart';
 import 'package:flutter/material.dart';
 
