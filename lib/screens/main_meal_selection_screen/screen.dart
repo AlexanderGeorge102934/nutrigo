@@ -37,13 +37,17 @@ class _MealSelectionScreenState extends State<MealSelectionScreen> {
 
   void fetchMeals() {
     meals = ApiService.fetchMenus().then((meals) {
-      return meals.where((meal) {
+      return meals
+          .where((meal) {
         return (selectedPreference == 'general' || meal.diet == selectedPreference) &&
             meal.price <= (selectedPrice ?? 5) &&
             meal.mealType == getCurrentMealType();
-      }).toList();
+      })
+          .toList()
+        ..sort((a, b) => a.price.compareTo(b.price)); // Sorting meals by price
     });
   }
+
 
   // Function to determine the meal type based on the current time
   String getCurrentMealType() {
