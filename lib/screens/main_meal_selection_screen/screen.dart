@@ -5,6 +5,8 @@ import '../../../components/meal_option_card.dart';
 import '../../../components/models/meal.dart';
 import '../../../services/api_service.dart';
 import '../../../utils/constant/sizes.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 // Extension to capitalize the first letter of a string
 extension StringCasingExtension on String {
@@ -188,8 +190,16 @@ class _MealSelectionScreenState extends State<MealSelectionScreen> {
 
                 // Elevated Order Button
                 ElevatedButton(
-                  onPressed: () {
-                    // Handle order action
+                  onPressed: () async {
+                    final Uri url = Uri.parse(meal.orderUrl);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    } else {
+                      // Can't launch URL
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Could not launch ${meal.orderUrl}')),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green[700],

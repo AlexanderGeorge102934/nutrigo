@@ -25,6 +25,13 @@ class MealOptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(TSizes.cardRadiusMd(context));
 
+    // Get screen height
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Define card and image heights as percentages of screen height
+    final cardMaxHeight = screenHeight * 0.4; // 40% of screen height
+    final imageHeight = cardMaxHeight * 0.3; // 60% of card height
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -47,10 +54,13 @@ class MealOptionCard extends StatelessWidget {
             ),
           ],
         ),
+        constraints: BoxConstraints(
+          maxHeight: cardMaxHeight, // Set maximum height for the card
+        ),
         child: ClipRRect(
           borderRadius: borderRadius,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min, // Size column based on content
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Image with price overlay
@@ -60,7 +70,7 @@ class MealOptionCard extends StatelessWidget {
                   Image.network(
                     imageUrl,
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.25,
+                    height: imageHeight, // Use calculated image height
                     fit: BoxFit.cover,
                   ),
                   // Price Label
@@ -95,7 +105,7 @@ class MealOptionCard extends StatelessWidget {
                 color: Colors.white,
                 padding: EdgeInsets.all(TSizes.sm(context)),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min, // Size column based on content
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Meal Name
@@ -118,14 +128,16 @@ class MealOptionCard extends StatelessWidget {
                           color: Colors.grey[600],
                         ),
                         SizedBox(width: TSizes.xs(context)),
-                        Text(
-                          restaurantName,
-                          style: TextStyle(
-                            fontSize: TSizes.fontSizeSm(context),
-                            color: Colors.grey[600],
+                        Expanded(
+                          child: Text(
+                            restaurantName,
+                            style: TextStyle(
+                              fontSize: TSizes.fontSizeSm(context),
+                              color: Colors.grey[600],
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),

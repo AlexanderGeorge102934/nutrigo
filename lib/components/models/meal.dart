@@ -6,7 +6,8 @@ class Meal {
   final String diet;
   final String ingredients;
   final String nutritionInfo;
-  final String restaurantName; // New field
+  final String restaurantName;
+  final String orderUrl; // New field
 
   Meal({
     required this.name,
@@ -16,7 +17,8 @@ class Meal {
     required this.diet,
     required this.ingredients,
     required this.nutritionInfo,
-    required this.restaurantName, // Initialize field
+    required this.restaurantName,
+    required this.orderUrl, // Initialize field
   });
 
   factory Meal.fromJson(Map<String, dynamic> json, String restaurantName) {
@@ -29,6 +31,7 @@ class Meal {
       ingredients: json['ingredients'],
       nutritionInfo: json['nutritionInfo'],
       restaurantName: restaurantName,
+      orderUrl: json['orderUrl'], // Parse new field
     );
   }
 }
