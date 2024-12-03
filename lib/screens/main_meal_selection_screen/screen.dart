@@ -44,7 +44,7 @@ class _MealSelectionScreenState extends State<MealSelectionScreen> {
             meal.mealType == getCurrentMealType();
       })
           .toList()
-        ..sort((a, b) => a.price.compareTo(b.price)); // Sorting meals by price
+        ..sort((a, b) => b.price.compareTo(a.price)); // Sorting meals from greatest to lowest price
     });
   }
 
